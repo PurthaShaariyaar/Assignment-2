@@ -2,33 +2,23 @@
 
 using namespace std;
 
-string encryptCeaser(string inputText, int k) {
+string encryptCeaser(string plainText, int k) {
     
     // stores the encrypted text 
-    string encrypted = "";
+    string ecrypted;
 
-    // use for loop to check each char of inputText 
-    for (int i = 0; i < inputText.length(); i++) {
+    ecrypted = plainText;
 
-        // if there is a space just return a space
-        if (isspace(inputText[i])) {
-            encrypted += inputText[i];
-        }
+    for (int i = 0; i < plainText.length(); i++)
+    {
+        if (plainText[i] >= 'A' && plainText[i] <= 'Z') // for uppercase characters , substract 65 from them
+            ecrypted[i] = 65 + (plainText[i] + k - 65) % 26;
+        else if (plainText[i] >= 'a' && plainText[i] <= 'z') // for lowercase characters , substract 97 from them
+            ecrypted[i] = 97 + (plainText[i] + k - 97) % 26;
 
-        // check if it's an uppercase char if yes, apply shift 
-        else if (isupper(inputText[i])) {
-            encrypted += char(int(inputText[i] + k - 65) % 26 + 65); 
-        }
-
-        // if it's not uppercase, then lowercase, apply shift 
-        else {
-            encrypted += char(int(inputText[i] + k - 97) % 26 + 97);
-        }
+        // taking mod of 26 so that character again comes back to start if go beyond range
     }
-
-    // return the encrypted string 
-    return encrypted; 
-
+    return ecrypted;
 }
 
 string decryptCeaser(string inputText, int k) {
@@ -55,15 +45,10 @@ string decryptCeaser(string inputText, int k) {
 }
 
 int main() {
-    
-    // cipher key 
-    const int k = 4; 
-    string str; 
-
-
-    cout << "Enter text: " << endl;
-    cin >> str; 
-
-    cout << "The decrypted text is: " << decryptCeaser(str, k);
-
+    const int k = 4;
+    string str;
+    cout << "Enter message: " << endl;
+    fflush(stdin);
+    getline(cin, str);
+    cout << "The encrpted text is: " << encryptCeaser(str, k);
 }
