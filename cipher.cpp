@@ -11,9 +11,10 @@ string encryptCeaser(string plainText, int k) {
 
     for (int i = 0; i < plainText.length(); i++)
     {
-        if (plainText[i] >= 'A' && plainText[i] <= 'Z') // for uppercase characters , substract 65 from them
+        if (plainText[i] >= 'A' && plainText[i] <= 'Z')
             ecrypted[i] = 65 + (plainText[i] + k - 65) % 26;
-        else if (plainText[i] >= 'a' && plainText[i] <= 'z') // for lowercase characters , substract 97 from them
+            
+        else if (plainText[i] >= 'a' && plainText[i] <= 'z')
             ecrypted[i] = 97 + (plainText[i] + k - 97) % 26;
 
         // taking mod of 26 so that character again comes back to start if go beyond range
@@ -21,23 +22,21 @@ string encryptCeaser(string plainText, int k) {
     return ecrypted;
 }
 
-string decryptCeaser(string inputText, int k) {
+string decryptCeaser(string plainText, int k) {
     
     // stores the decrypted text 
     string decrypted = ""; 
 
+    decrypted = plainText;
+
     // use the for loop to check each char of inputText
-    for (int i = 0; i < inputText.length(); i++) {
+    for (int i = 0; i < plainText.length(); i++) {
 
-        // check if it's an uppercase, apply reverse shift 
-        if (isupper(inputText[i])) {
-            decrypted += char(int(inputText[i] - k - 65) % 26 + 65);
-        }
-
-        // if it's not uppercase, then lowercase, apply reverse shift
-        else {
-            decrypted += char(int(inputText[i] - k - 97) + 97);
-        }
+        if (plainText[i] >= 'A' && plainText[i] <= 'Z') 
+            decrypted[i] = 65 + (plainText[i] - k - 65) % 26;
+            
+        else if (plainText[i] >= 'a' && plainText[i] <= 'z') 
+            decrypted[i] = 97 + (plainText[i] - k - 97) % 26;
     }
 
     // return the decrypted string 
@@ -45,10 +44,33 @@ string decryptCeaser(string inputText, int k) {
 }
 
 int main() {
-    const int k = 4;
+    const int k = 7;
     string str;
-    cout << "Enter message: " << endl;
-    fflush(stdin);
-    getline(cin, str);
-    cout << "The encrpted text is: " << encryptCeaser(str, k);
+    string option;
+    // int method;
+    int choice;
+    cout << "Welcome to Cryptographic Techniques Program" << endl;
+    cout << "If you want to use this program enter Y, if you don't enter N: " << endl; 
+    cin >> option; 
+
+    while (option == "Y" && option != "N") {
+
+        cout << "Choose a Ceaser method, enter 1 to Encrypt or 2 to Decrypt: " << endl;
+        cin >> choice; 
+
+        cout << "Please enter the message: " << endl;
+        fflush(stdin);
+        getline(cin, str);
+
+        if (choice == 1) {
+            cout << encryptCeaser(str, k) << endl;
+        } else if (choice == 2) {
+            cout << decryptCeaser(str, k) << endl;
+        }
+
+        cout << "Do you want to continue using this program, enter Y to continue or N to exit" << endl;
+        cin >> option; 
+    }
+
+    cout << "Thank you for using our Cryptographic Techniques Program!" << endl;
 }
